@@ -189,6 +189,39 @@ public class Picture extends SimplePicture {
         }
     }
 
+    public void greyscale()
+    {
+        Pixel[][] pixels = this.getPixels2D();
+        for (Pixel[] rowArray : pixels) {
+            for (Pixel pixelObj : rowArray) {
+                pixelObj.setRed((pixelObj.getRed() + pixelObj.getGreen() + pixelObj.getBlue())/3);
+                pixelObj.setGreen((pixelObj.getRed() + pixelObj.getGreen() + pixelObj.getBlue())/3);
+                pixelObj.setBlue((pixelObj.getRed() + pixelObj.getGreen() + pixelObj.getBlue())/3);
+            }
+        }
+    }
+
+    public void fixUnderwater()
+    {
+        Pixel[][] pixels = this.getPixels2D();
+        for (Pixel[] rowArray : pixels)
+        {
+            for (Pixel pixelObj : rowArray)
+            {
+                int red = Math.abs(pixelObj.getRed() - 21);
+                int green = Math.abs(pixelObj.getGreen() - 163);
+                int blue = Math.abs(pixelObj.getBlue() - 173);
+
+                // (R, G, B) is (21, 163, 173)
+                int difference = red + green + blue;
+                if (difference > 21) {
+                    pixelObj.setRed(0);
+                    pixelObj.setGreen(0);
+                    pixelObj.setBlue(0);
+                }
+            }
+        }
+    }
   /** Method to create a collage of several pictures */
   public void createCollage()
   {

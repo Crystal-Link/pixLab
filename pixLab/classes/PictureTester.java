@@ -43,6 +43,22 @@ public class PictureTester
     temple.explore();
   }
 
+  public static void testMirrorVerticalRightToLeft()
+  {
+      Picture temple = new Picture ("temple.jpg");
+      temple.explore();
+      temple.mirrorVerticalRightToLeft();
+      temple.explore();
+  }
+
+  public static void testMirrorHorizontal()
+  {
+      Picture temple = new Picture ("temple.jpg");
+      temple.explore();
+      temple.mirrorVerticalRightToLeft();
+      temple.explore();
+  }
+
   public static void testNegate()
   {
       Picture beach = new Picture("beach.jpg");
@@ -96,8 +112,10 @@ public class PictureTester
     //testKeepOnlyGreen();
     //testNegate();
     //testGrayscale();
-    testFixUnderwater();
+    //testFixUnderwater();
     //testMirrorVertical();
+    //testMirrorVerticalRightToLeft();
+      testMirrorHorizontal();
     //testMirrorTemple();
     //testMirrorArms();
     //testMirrorGull();

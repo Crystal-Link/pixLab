@@ -55,7 +55,15 @@ public class PictureTester
   {
       Picture temple = new Picture ("temple.jpg");
       temple.explore();
-      temple.mirrorVerticalRightToLeft();
+      temple.mirrorHorizontal();
+      temple.explore();
+  }
+
+  public static void testMirrorHorizontalBotToTop()
+  {
+      Picture temple = new Picture ("temple.jpg");
+      temple.explore();
+      temple.mirrorHorizontalBotToTop();
       temple.explore();
   }
 
@@ -115,7 +123,8 @@ public class PictureTester
     //testFixUnderwater();
     //testMirrorVertical();
     //testMirrorVerticalRightToLeft();
-      testMirrorHorizontal();
+    //testMirrorHorizontal();
+    testMirrorHorizontalBotToTop();
     //testMirrorTemple();
     //testMirrorArms();
     //testMirrorGull();

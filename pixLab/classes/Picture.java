@@ -242,9 +242,7 @@ public class Picture extends SimplePicture {
         int count = 0;
         Pixel[][] pixels = this.getPixels2D();
 
-        // loop through the rows
         for (int row = 233; row < 324; row++) {
-            // loop from 13 to just before the mirror point
             for (int col = 236; col < mirrorPoint; col++) {
 
                 leftPixel = pixels[row][col];
@@ -275,6 +273,27 @@ public class Picture extends SimplePicture {
                      toRow < toPixels.length;
              fromRow++, toRow++) {
             for (int fromCol = 0, toCol = startCol;
+                 fromCol < fromPixels[0].length &&
+                         toCol < toPixels[0].length;
+                 fromCol++, toCol++) {
+                fromPixel = fromPixels[fromRow][fromCol];
+                toPixel = toPixels[toRow][toCol];
+                toPixel.setColor(fromPixel.getColor());
+            }
+        }
+    }
+
+    public void copy2(Picture fromPic,
+                     int startRow, int startCol, int endRow, int endCol) {
+        Pixel fromPixel = null;
+        Pixel toPixel = null;
+        Pixel[][] toPixels = this.getPixels2D();
+        Pixel[][] fromPixels = fromPic.getPixels2D();
+        for (int fromRow = startRow, toRow = endRow;
+             fromRow < fromPixels.length &&
+                     toRow < toPixels.length;
+             fromRow++, toRow++) {
+            for (int fromCol = startCol, toCol = endCol;
                  fromCol < fromPixels[0].length &&
                          toCol < toPixels[0].length;
                  fromCol++, toCol++) {
@@ -346,7 +365,21 @@ public class Picture extends SimplePicture {
     this.mirrorVertical();
     this.write("collage.jpg");
   }
-  
+
+  public void myCollage()
+  {
+      Picture mark = new Picture("blue-mark.jpg");
+      Picture jenny = new Picture("jenny-red.jpg");
+      this.copy2(mark,0,0,200,200);
+      this.copy2(jenny,100,0,200,300);
+      this.copy2(mark,500,0,400,200);
+      Picture robot = new Picture("robot.jpg");
+      this.copy2(robot,300,0,400,200);
+      this.copy2(mark,400,0,500,150);
+      this.copy2(jenny,500,0,550,150);
+      this.mirrorVertical();
+      this.write("collage.jpg");
+  }
   
   /** Method to show large changes in color 
     * @param edgeDist the distance for finding edges
@@ -373,6 +406,96 @@ public class Picture extends SimplePicture {
       }
     }
   }
+
+    public void edgeDetection2(int edgeDist)
+    {
+        Pixel leftPixel = null;
+        Pixel rightPixel = null;
+        Pixel topPixel = null;
+        Pixel bottomPixel = null;
+        Pixel[][] pixels = this.getPixels2D();
+        Color rightColor = null;
+        for (int row = 0; row < pixels.length - 1; row++)
+        {
+            for (int col = 0;
+                 col < pixels[0].length-1; col++)
+            {
+                leftPixel = pixels[row][col];
+                rightPixel = pixels[row][col+1];
+                topPixel = pixels[row][col];
+                bottomPixel = pixels[row][col];
+                if (leftPixel.colorDistance(rightPixel.getColor()) >
+                        edgeDist || topPixel.colorDistance(bottomPixel.getColor()) > edgeDist)
+                    leftPixel.setColor(Color.BLACK);
+                else
+                    leftPixel.setColor(Color.WHITE);
+            }
+        }
+    }
+
+    /** Hide a black and white message in the current
+     * picture by changing the red to even and then
+     * setting it to odd if the message pixel is black
+     * @param messagePict the picture with a message
+     */
+    public void encode(Picture messagePict)
+    {
+
+        Pixel[][] messagePixels = messagePict.getPixels2D();
+        Pixel[][] currPixels = this.getPixels2D();
+        Pixel currPixel = null;
+        Pixel messagePixel = null;
+        int count = 0;
+        for (int row = 0; row < this.getHeight(); row++)
+        {
+            for (int col = 0; col < this.getWidth(); col++)
+            {
+                // if the current pixel red is odd make it even
+                currPixel = currPixels[row][col];
+                if (currPixel.getRed() % 2 == 1)
+                    currPixel.setRed(currPixel.getRed() - 1);
+                messagePixel = messagePixels[row][col];
+                if (messagePixel.colorDistance(Color.BLACK) < 50)
+                {
+                    currPixel.setRed(currPixel.getRed() + 1);
+                    count++;
+                }
+            }
+        }
+        System.out.println(count);
+    }
+
+    /**
+     * Method to decode a message hidden in the
+     * red value of the current picture
+     * @return the picture with the hidden message
+     */
+    public Picture decode()
+    {
+        Pixel[][] pixels = this.getPixels2D();
+        int height = this.getHeight();
+        int width = this.getWidth();
+        Pixel currPixel = null;
+        Pixel messagePixel = null;
+        Picture messagePicture = new Picture(height,width);
+        Pixel[][] messagePixels = messagePicture.getPixels2D();
+        int count = 0;
+        for (int row = 0; row < this.getHeight(); row++)
+        {
+            for (int col = 0; col < this.getWidth(); col++)
+            {
+                currPixel = pixels[row][col];
+                messagePixel = messagePixels[row][col];
+                if (currPixel.getRed() % 2 == 1)
+                {
+                    messagePixel.setColor(Color.BLACK);
+                    count++;
+                }
+            }
+        }
+        System.out.println(count);
+        return messagePicture;
+    }
   
   
   /* Main method for testing - each class in Java can have a main 

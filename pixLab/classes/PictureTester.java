@@ -122,7 +122,13 @@ public class PictureTester
     canvas.createCollage();
     canvas.explore();
   }
-  
+
+  public static void testMyCollage()
+  {
+      Picture canvas = new Picture("640x480.jpg");
+      canvas.myCollage();
+      canvas.explore();
+  }
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
   {
@@ -130,7 +136,26 @@ public class PictureTester
     swan.edgeDetection(10);
     swan.explore();
   }
-  
+
+  public static void testEdgeDetection2()
+  {
+      Picture swan = new Picture("swan.jpg");
+      swan.edgeDetection2(10);
+      swan.explore();
+  }
+
+    /** Method to test encode and decode */
+    public static void testEncodeAndDecode()
+    {
+        Picture beach = new Picture("beach.jpg");
+        beach.explore();
+        Picture message = new Picture("msg.jpg");
+        beach.encode(message);
+        beach.explore();
+        Picture decoded = beach.decode();
+        decoded.explore();
+    }
+
   /** Main method for testing.  Every class can have a main
     * method in Java */
   public static void main(String[] args)
@@ -150,15 +175,16 @@ public class PictureTester
     //testMirrorHorizontal();
     //testMirrorHorizontalBotToTop();
     //testMirrorTemple();
-    testMirrorArms();
-    testMirrorGull();
+    //testMirrorArms();
+    //testMirrorGull();
     //testMirrorDiagonal();
     //testCollage();
+    //testMyCollage();
     //testCopy();
     //testEdgeDetection();
     //testEdgeDetection2();
     //testChromakey();
-    //testEncodeAndDecode();
+    testEncodeAndDecode();
     //testGetCountRedOverValue(250);
     //testSetRedToHalfValueInTopHalf();
     //testClearBlueOverValue(200);

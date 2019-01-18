@@ -144,16 +144,23 @@ public class PictureTester
       swan.explore();
   }
 
-    /** Method to test encode and decode */
     public static void testEncodeAndDecode()
     {
-        Picture beach = new Picture("beach.jpg");
-        beach.explore();
+        Picture swan = new Picture("swan.jpg");
+        swan.explore();
         Picture message = new Picture("msg.jpg");
-        beach.encode(message);
-        beach.explore();
-        Picture decoded = beach.decode();
+        swan.encode(message);
+        swan.explore();
+        Picture decoded = swan.decode();
         decoded.explore();
+    }
+
+    public static void testChromakey()
+    {
+        Picture mark = new Picture("blue-mark.jpg");
+        Picture beach = new Picture("beach.jpg");
+        mark.chromakey(beach);
+        mark.explore();
     }
 
   /** Main method for testing.  Every class can have a main
@@ -183,8 +190,8 @@ public class PictureTester
     //testCopy();
     //testEdgeDetection();
     //testEdgeDetection2();
-    //testChromakey();
-    testEncodeAndDecode();
+    testChromakey();
+    //testEncodeAndDecode();
     //testGetCountRedOverValue(250);
     //testSetRedToHalfValueInTopHalf();
     //testClearBlueOverValue(200);

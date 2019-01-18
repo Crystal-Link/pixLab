@@ -433,11 +433,6 @@ public class Picture extends SimplePicture {
         }
     }
 
-    /** Hide a black and white message in the current
-     * picture by changing the red to even and then
-     * setting it to odd if the message pixel is black
-     * @param messagePict the picture with a message
-     */
     public void encode(Picture messagePict)
     {
 
@@ -465,11 +460,6 @@ public class Picture extends SimplePicture {
         System.out.println(count);
     }
 
-    /**
-     * Method to decode a message hidden in the
-     * red value of the current picture
-     * @return the picture with the hidden message
-     */
     public Picture decode()
     {
         Pixel[][] pixels = this.getPixels2D();
@@ -496,8 +486,28 @@ public class Picture extends SimplePicture {
         System.out.println(count);
         return messagePicture;
     }
-  
-  
+
+    public void chromakey(Picture newBack)
+    {
+        Pixel fromPixel = null;
+        Pixel toPixel = null;
+        Pixel[][] toPixels = this.getPixels2D();
+        Pixel[][] fromPixels = newBack.getPixels2D();
+        for (int row = 0; row < this.getHeight(); row++)
+        {
+            for (int col=0; col < this.getWidth(); col++)
+            {
+                toPixel = toPixels[row][col];
+                if (toPixel.getBlue() > toPixel.getRed())
+                {
+                    fromPixel = fromPixels[row][col];
+                    toPixel.setColor(fromPixel.getColor());
+                }
+            }
+        }
+    }
+
+
   /* Main method for testing - each class in Java can have a main 
    * method 
    */
